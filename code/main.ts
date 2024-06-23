@@ -15,10 +15,10 @@ kaboom({
 // load assets
 // sprites are 2d characters, objects, backgrounds, and other elements within a game.
 
-  loadSprite("chrono", "chrono.png"); // Load the sprite for the player character (chrono) from the specified URL
-  loadSprite("background", "background.jpeg"); // Load the sprite for the background
-  loadSprite("platform", "platform1.png"); // Load the sprite for the platform 
-  loadSprite("goal", "goal.png"); // Load the sprite for the goal of end 
+  loadSprite("chrono", "sprites/chrono.png"); // Load the sprite for the player character (chrono) from the specified URL
+  loadSprite("background", "sprites/background.jpeg"); // Load the sprite for the background
+  loadSprite("platform", "sprites/platform1.png"); // Load the sprite for the platform 
+  loadSprite("goal", "sprites/goal.png"); // Load the sprite for the goal of end 
 
 // constants for game mechanics
 const MOVE_SPEED = 400; // Speed at which the player character moves
@@ -60,37 +60,43 @@ scene("level1", () => {
   layers(["bg", "obj", "ui"], "obj");
 
  // add and scale background
-  add([sprite("background"), layer("bg"), scale(width() / 400, height() / 800), pos((width() - spriteWidth("background")) / 2, (height() - spriteHeight("background")) / 2)]);
+  add([
+    sprite("background"),
+    layer("bg"),
+    scale(width() / 400, height() / 800),
+    pos((width() - spriteWidth("background")) / 2, (height() - spriteHeight("background")) / 2),
+  ]);
 
+  add([
+    sprite("platform"),
+    pos(100, 200),
+    solid(),
+  ]);
   
-});
+
+    const player = add([
+      sprite("chrono"),
+      pos(0, 0),
+      scale(0.1),
+      body(),
+    ]);
+
+    add([
+      sprite("goal"),
+      pos(700, 50),
+    ]);
+
+    keyDown("left", () => {
+      player.move(-MOVE_SPEED, 0);
+    });
+
+    keyDown("right", () => {
+      player.move(MOVE_SPEED, 0);
+    });
+  });
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-// add a character to screen
-add([
-	// list of components
-	sprite("chrono"),
-	pos(80, 40),
-	area(),
-])
-
-// add a kaboom on mouse click
-onClick(() => {
-	addKaboom(mousePos())
-})
-
-// burp on "b"
-onKeyPress("b", burp)
